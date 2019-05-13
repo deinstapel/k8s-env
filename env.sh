@@ -16,8 +16,8 @@ rm -rf "${HELM_HOME}" 2>/dev/null
 kubectl create ns $1-tiller 2>/dev/null >> "${LOGFILE}"
 helm init --client-only >> "${LOGFILE}"
 helm plugin install https://github.com/rimusz/helm-tiller >> "${LOGFILE}"
-helm plugin tiller start $1-tiller >> "${LOGFILE}"
-helm plugin tiller env >> "${LOGFILE}"
+helm tiller start $1-tiller >> "${LOGFILE}"
+helm tiller env >> "${LOGFILE}"
 
 echo 'THIS CLUSTER IS LIVE'
 echo 'Running workloads:'
