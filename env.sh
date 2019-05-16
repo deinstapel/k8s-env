@@ -19,7 +19,7 @@ else
   echo 'Setting up helm'
 
   rm -rf "${HELM_HOME}" 2>/dev/null
-  kubectl create ns $1-tiller 2>/dev/null >> "${LOGFILE}"
+  kubectl create ns $1-tiller 2>/dev/null || true >> "${LOGFILE}"
   helm init --client-only >> "${LOGFILE}"
   helm plugin install https://github.com/rimusz/helm-tiller >> "${LOGFILE}"
   helm tiller start-ci $1-tiller >> "${LOGFILE}"
