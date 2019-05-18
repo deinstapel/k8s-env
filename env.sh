@@ -6,7 +6,9 @@ timestamp() {
   date +"%T"
 }
 
-export DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+# We want to use dirname $0 here instead of BASH_SOURCE[0]
+# since this script is meant to be sourced.
+export DIR="$( cd "$( dirname "$0" )" >/dev/null && pwd )"
 
 export LOGFILE="${DIR}/__run-$(timestamp).log"
 export KUBECONFIG="${DIR}/kubeconfig"
