@@ -9,7 +9,7 @@ timestamp() {
 # We want to use dirname $0 here instead of BASH_SOURCE[0]
 # since this script is meant to be sourced.
 export DIR="$( cd "$( dirname "$0" )" >/dev/null && pwd )"
-
+export TMPDIR="/tmp"
 export LOGFILE="${DIR}/__run-$(timestamp).log"
 export KUBECONFIG="${DIR}/kubeconfig"
 export HELM_HOME="${DIR}/helm-home"
@@ -31,6 +31,7 @@ else
   kubectl create ns $1-tiller 2>/dev/null || true >> "${LOGFILE}"
   helm init --client-only >> "${LOGFILE}"
   helm plugin install https://github.com/rimusz/helm-tiller >> "${LOGFILE}"
+  echo 'Installed plugin'
   helm tiller start-ci $1-tiller >> "${LOGFILE}"
   source <(helm tiller env) 
 
