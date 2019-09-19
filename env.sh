@@ -25,15 +25,15 @@ if [ "$DS_INIT" = "true" ]; then
   echo "Environment already initialized, exiting"
 elif [ -z "$1" ]; then
   echo "You have to specify your username as first argument, e.g. martin"
-else 
+else
   echo 'Setting up helm'
   rm -rf "${HELM_HOME}" 2>/dev/null
   kubectl create ns $1-tiller 2>/dev/null || true >> "${LOGFILE}"
   helm init --client-only >> "${LOGFILE}"
-  helm plugin install https://github.com/rimusz/helm-tiller >> "${LOGFILE}"
+  helm plugin install https://github.com/rimusz/helm-tiller --version 0.8.4 >> "${LOGFILE}"
   echo 'Installed plugin'
   helm tiller start-ci $1-tiller >> "${LOGFILE}"
-  source <(helm tiller env) 
+  source <(helm tiller env)
 
   export DS_INIT="true"
   trap cleanup EXIT
